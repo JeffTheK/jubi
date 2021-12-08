@@ -1,12 +1,22 @@
 import calendar
 import colorama
+import click
 from calendar import monthrange
 from datetime import datetime
 from colorama import Fore, Back, Style
 
-def main():
+@click.command()
+@click.option('-m', '--month', default=-1)
+@click.option('-y', '--year', default=-1)
+def main(month, year):
     colorama.init()
+
     current_time = datetime.today()
+    if month != -1:
+        current_time.replace(month=month)
+    if year != -1:
+        current_time = current_time.replace(year=year)
+    
     days_count = monthrange(current_time.year, current_time.month)[1]
     print(current_time.strftime("%B %Y").center(21))
     print(f"{Fore.YELLOW}Su Mo Tu We Th Fr Sa{Fore.RESET}")
